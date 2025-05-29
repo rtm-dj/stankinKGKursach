@@ -236,32 +236,9 @@ void Render(double delta_time)
 
 	
 
-	//квадратик станкина
-	//так как расчет освещения происходит только в вершинах
-	// (закраска по Гуро)
-	//то рисуем квадратик из более маленьких квадратиков
-	glBindTexture(GL_TEXTURE_2D, texId);
-	glBegin(GL_QUADS);
-	glNormal3d(0, 0, 1);
-	double h = 0.025;
-	for (double x = h; x<= 1; x+= h)
-		for (double y = h; y <= 1; y += h)
-		{
-			glColor3d(1, 1, 0);
+	
 
-			glTexCoord2d(x, y);
-			glVertex2d(x, y);
 
-			glTexCoord2d(x-h, y);
-			glVertex2d(x-h, y);
-
-			glTexCoord2d(x - h, y-h);
-			glVertex2d(x - h, y-h);
-
-			glTexCoord2d(x, y - h);
-			glVertex2d(x, y - h);
-		}
-	glEnd();
 
 
 	//===============================================
