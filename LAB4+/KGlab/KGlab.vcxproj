@@ -136,20 +136,41 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="debout.cpp" />
     <ClCompile Include="GUItextRectangle.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyOGL.cpp" />
+    <ClCompile Include="MyShaders.cpp" />
+    <ClCompile Include="ObjLoader.cpp" />
     <ClCompile Include="Render.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="debout.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="GUItextRectangle.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="MyOGL.h" />
+    <ClInclude Include="MyShaders.h" />
+    <ClInclude Include="ObjLoader.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Texture.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\cassini.frag" />
+    <None Include="shaders\f.frag" />
+    <None Include="shaders\frac.frag" />
+    <None Include="shaders\f_gui.frag" />
+    <None Include="shaders\light.frag" />
+    <None Include="shaders\textureShader.frag" />
+    <None Include="shaders\v.vert" />
+    <None Include="shaders\vb.frag" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="shaders\f_frac.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

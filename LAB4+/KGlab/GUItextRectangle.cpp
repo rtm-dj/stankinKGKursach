@@ -144,6 +144,7 @@ void GuiTextRectangle::setText(const wchar_t* text, char r, char g , char b )
 
 	DeleteObject(hFont);
 
+	
 	glBindTexture(GL_TEXTURE_2D, _d->tex_id);
 
 

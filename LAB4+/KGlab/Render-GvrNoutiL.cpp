@@ -6,9 +6,10 @@
 #include <iomanip>
 #include <sstream>
 #include "GUItextRectangle.h"
+#include "MyShaders.h"
 
 
-
+#include "ObjLoader.h"
 
 
 #ifdef _DEBUG
@@ -83,8 +84,21 @@ GuiTextRectangle text;
 //айдишник для текстуры
 GLuint texId;
 //выполняется один раз перед первым рендером
+
+ObjFile f;
+
+
+Shader cassini;
+
 void initRender()
 {
+
+	cassini.VshaderFileName = "shaders/v.vert";
+	cassini.FshaderFileName = "shaders/cassini.frag";
+	cassini.LoadShaderFromFile();
+	cassini.Compile();
+
+	f.LoadModel("models//monkey.obj_m");
 	//==============НАСТРОЙКА ТЕКСТУР================
 	//4 байта на хранение пикселя
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -169,8 +183,12 @@ void initRender()
 	camera.setPosition(2, 1.5, 1.5);
 }
 
+double full_time = 0;
 void Render(double delta_time)
 {    
+	
+	full_time += delta_time;
+	
 	glEnable(GL_DEPTH_TEST);
 	
 	//натройка камеры и света
@@ -236,11 +254,47 @@ void Render(double delta_time)
 
 	
 
+	//f.Draw();
+
 	
+	auto time_var_location = glGetUniformLocationARB(cassini.program, "Time");
+	auto size_var_location = glGetUniformLocationARB(cassini.program, "size");
 
+	glUniform1fARB(time_var_location,full_time);
+	glUniform2fARB(size_var_location, 100, 100);
 
+	cassini.UseShader();
 
+	glBegin(GL_QUADS);
+		glNormal3d(0, 0, 1);
+		glTexCoord2d(1, 1);
+		glVertex3d(0.5, 0.5, 0);
+		glTexCoord2d(0, 1);
+		glVertex3d(-0.5, 0.5, 0);
+		glTexCoord2d(0, 0);
+		glVertex3d(-0.5, -0.5, 0);
+		glTexCoord2d(1, 0);
+		glVertex3d(0.5, -0.5, 0);
+	glEnd();
 
+	Shader::DontUseShaders();
+
+	glPushMatrix();
+	glTranslated(3, 0, 0);
+
+	glBegin(GL_QUADS);
+		glNormal3d(0, 0, 1);
+		glTexCoord2d(1, 1);
+		glVertex3d(0.5, 0.5, 0);
+		glTexCoord2d(0, 1);
+		glVertex3d(-0.5, 0.5, 0);
+		glTexCoord2d(0, 0);
+		glVertex3d(-0.5, -0.5, 0);
+		glTexCoord2d(1, 0);
+		glVertex3d(0.5, -0.5, 0);
+	glEnd();
+	
+	glPopMatrix();
 	//===============================================
 
 	//рисуем источник света
@@ -286,6 +340,7 @@ void Render(double delta_time)
 	
 	text.setPosition(10, gl.getHeight() - 10 - 180);
 	text.setText(ss.str().c_str());
+	
 	text.Draw();
 
 	//восстанавливаем матрицу проекции на перспективу, которую сохраняли ранее.
@@ -293,6 +348,8 @@ void Render(double delta_time)
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
+
+	
 	
 
 }   

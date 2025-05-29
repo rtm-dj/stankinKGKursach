@@ -292,8 +292,6 @@ void OpenGL::DrawAxes()
 
 void OpenGL::render(double delta)
 {
-	
-	glMatrixMode(GL_MODELVIEW);
 
 	if (resize_pending)
 	{
@@ -311,12 +309,10 @@ void OpenGL::render(double delta)
 	}
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	glEnable(GL_DEPTH_TEST);
 			
-
-	glDisable(GL_LIGHTING);
-		
-	
 	Render(delta);
 
 
@@ -339,7 +335,7 @@ void OpenGL::resize(int w, int h)
 	glMatrixMode(GL_PROJECTION);		
 	glLoadIdentity();	
 			
-	gluPerspective(45.0, (GLdouble)width / (GLdouble)height, 0.2, 200.0);
+	gluPerspective(45.0, (GLdouble)width / (GLdouble)height, 0.05, 500);
 
 	glMatrixMode(GL_MODELVIEW);							
 	glLoadIdentity();									
@@ -354,8 +350,8 @@ void OpenGL::init(void)
 	pfd.nVersion = 1;
 	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
 	pfd.iPixelType = PFD_TYPE_RGBA;
-	pfd.cColorBits = 16;
-	pfd.cDepthBits = 16;
+	pfd.cColorBits = 24;
+	pfd.cDepthBits = 24;
 
 	g_hDC = GetDC(g_hWnd);
 	GLuint iPixelFormat = ChoosePixelFormat(g_hDC, &pfd);
@@ -384,6 +380,12 @@ void OpenGL::init(void)
 
 	g_hRC = wglCreateContext(g_hDC);
 	wglMakeCurrent(g_hDC, g_hRC);
+
+	glEnable(GL_DEPTH_TEST);
+
+	const GLubyte* version = glGetString(GL_VERSION);
+
+	std::string s((char*)version);
 
 }
 
