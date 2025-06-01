@@ -15,6 +15,265 @@
 
 #include "debout.h"
 
+//---------------------Models----------------------
+
+
+
+void drawCarSedan() {
+	
+	//левая грань
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(-3, -2, 0);
+	glVertex3f(-3, -2, 2.5);
+	glVertex3f(4, -2, 2.5);
+	glVertex3f(4, -2, 0);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(4, -2, 0);
+	glVertex3f(4, -2, 2.5);
+	glVertex3f(5, -2, 2.5);
+	glVertex3f(5.5, -2, 1);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(-5, -2, 1);
+	glVertex3f(-5, -2, 2);
+	glVertex3f(-3, -2, 2.5);
+	glVertex3f(-3, -2, 0);
+	glEnd();
+
+
+	//правая грань
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(-3, 2, 0);
+	glVertex3f(-3, 2, 2.5);
+	glVertex3f(4, 2, 2.5);
+	glVertex3f(4, 2, 0);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(4, 2, 0);
+	glVertex3f(4, 2, 2.5);
+	glVertex3f(5, 2, 2.5);
+	glVertex3f(5.5, 2, 1);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(-5, 2, 1);
+	glVertex3f(-5, 2, 2);
+	glVertex3f(-3, 2, 2.5);
+	glVertex3f(-3, 2, 0);
+	glEnd();
+
+	//перед
+	glBegin(GL_QUADS);
+	glColor3d(0.486, 0.620, 0.686);
+	glVertex3f(-3, -2, 2.5);
+	glVertex3f(-5, -2, 2);
+	glVertex3f(-5, 2, 2);
+	glVertex3f(-3, 2, 2.5);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.486, 0.620, 0.686);
+	glVertex3f(-5, -2, 2);
+	glVertex3f(-5, -2, 1);
+	glVertex3f(-5, 2, 1);
+	glVertex3f(-5, 2, 2);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.286, 0.420, 0.486);
+	glVertex3f(-5, 2, 1);
+	glVertex3f(-5, -2, 1);
+	glVertex3f(-3, -2, 0);
+	glVertex3f(-3, 2, 0);
+	glEnd();
+
+	//зад
+	glBegin(GL_QUADS);
+	glColor3d(0.486, 0.620, 0.686);
+	glVertex3f(4, -2, 2.5);
+	glVertex3f(4, 2, 2.5);
+	glVertex3f(5, 2, 2.5);
+	glVertex3f(5, -2, 2.5);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.486, 0.620, 0.686);
+	glVertex3f(5, 2, 2.5);
+	glVertex3f(5, -2, 2.5);
+	glVertex3f(5.5, -2, 1);
+	glVertex3f(5.5, 2, 1);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.286, 0.420, 0.486);
+	glVertex3f(5.5, 2, 1);
+	glVertex3f(5.5, -2, 1);
+	glVertex3f(4, -2, 0);
+	glVertex3f(4, 2, 0);
+	glEnd();
+
+
+	//дно
+	glBegin(GL_QUADS);
+	glColor3d(0.186, 0.320, 0.386);
+	glVertex3f(-3, -2, 0);
+	glVertex3f(-3, 2, 0);
+	glVertex3f(4, 2, 0);
+	glVertex3f(4, -2, 0);
+	glEnd();
+
+
+
+	//стойки кабины
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(-3, -2, 2.5);
+	glVertex3f(-1.1, -1.5, 7);
+	glVertex3f(-1, -1.5, 7);
+	glVertex3f(-2.7, -2, 2.5);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(1.5, -2, 2.5);
+	glVertex3f(1.5, -1.5, 7);
+	glVertex3f(1.6, -1.5, 7);
+	glVertex3f(1.8, -2, 2.5);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(3.7, -2, 2.5);
+	glVertex3f(2.5, -1.5, 7);
+	glVertex3f(2.6, -1.5, 7);
+	glVertex3f(4, -2, 2.5);
+	glEnd();
+
+
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(-3, 2, 2.5);
+	glVertex3f(-1.1, 1.5, 7);
+	glVertex3f(-1, 1.5, 7);
+	glVertex3f(-2.7, 2, 2.5);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(1.5, 2, 2.5);
+	glVertex3f(1.5, 1.5, 7);
+	glVertex3f(1.6, 1.5, 7);
+	glVertex3f(1.8, 2, 2.5);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(3.7, 2, 2.5);
+	glVertex3f(2.5, 1.5, 7);
+	glVertex3f(2.6, 1.5, 7);
+	glVertex3f(4, 2, 2.5);
+	glEnd();
+
+
+	glBegin(GL_QUADS);
+	glColor3d(0.486, 0.620, 0.686);
+	glVertex3f(-3, -2, 2.5);
+	glVertex3f(-3, -1.7, 2.5);
+	glVertex3f(-1.1, -1.4, 7);
+	glVertex3f(-1.1, -1.5, 7);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.486, 0.620, 0.686);
+	glVertex3f(-3, 2, 2.5);
+	glVertex3f(-3, 1.7, 2.5);
+	glVertex3f(-1.1, 1.4, 7);
+	glVertex3f(-1.1, 1.5, 7);
+	glEnd();
+
+
+	glBegin(GL_QUADS);
+	glColor3d(0.486, 0.620, 0.686);
+	glVertex3f(4, -2, 2.5);
+	glVertex3f(2.6, -1.5, 7);
+	glVertex3f(2.6, -1.4, 7);
+	glVertex3f(4, -1.7, 2.5);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.486, 0.620, 0.686);
+	glVertex3f(4, 1.7, 2.5);
+	glVertex3f(2.6, 1.4, 7);
+	glVertex3f(2.6, 1.5, 7);
+	glVertex3f(4, 2, 2.5);
+	glEnd();
+
+	//крыша
+	glBegin(GL_QUADS);
+	glColor3d(0.586, 0.720, 0.786);
+	glVertex3f(-1.1, -1.5, 7);
+	glVertex3f(-1.1, 1.5, 7);
+	glVertex3f(2.6, 1.5, 7);
+	glVertex3f(2.6, -1.5, 7);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(-1.1, -1.5, 6.9);
+	glVertex3f(-1.1, 1.5, 6.9);
+	glVertex3f(2.6, 1.5, 6.9);
+	glVertex3f(2.6, -1.5, 6.9);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.476, 0.610, 0.676);
+	glVertex3f(-1.1, -1.5, 7);
+	glVertex3f(-1.1, 1.5, 7);
+	glVertex3f(-1.1, 1.5, 6.9);
+	glVertex3f(-1.1, -1.5, 6.9);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.476, 0.610, 0.676);
+	glVertex3f(2.6, -1.5, 7);
+	glVertex3f(2.6, 1.5, 7);
+	glVertex3f(2.6, 1.5, 6.9);
+	glVertex3f(2.6, -1.5, 6.9);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(-1.1, 1.5, 7);
+	glVertex3f(2.6, 1.5, 7);
+	glVertex3f(2.6, 1.5, 6.9);
+	glVertex3f(-1.1, 1.5, 6.9);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glColor3d(0.376, 0.510, 0.576);
+	glVertex3f(-1.1, -1.5, 7);
+	glVertex3f(2.6, -1.5, 7);
+	glVertex3f(2.6, -1.5, 6.9);
+	glVertex3f(-1.1, -1.5, 6.9);
+	glEnd();
+}
+
+
+
+
+//-------------------------------------------------
+
+
 
 
 //внутренняя логика "движка"
@@ -27,7 +286,7 @@ Camera camera;
 
 
 bool texturing = true;
-bool lightning = true;
+bool lightning = false;
 bool alpha = false;
 
 
@@ -157,7 +416,6 @@ int location = 0;
 void Render(double delta_time)
 {    
 	
-
 	full_time += delta_time;
 	
 	//натройка камеры и света
@@ -236,188 +494,14 @@ void Render(double delta_time)
 
 	
 
-	//квадратик станкина
-
 	
 
-	//рисуем квадратик с овалом Кассини!
-	
-	cassini_sh.UseShader();
 
-	location = glGetUniformLocationARB(cassini_sh.program, "Time");
-	glUniform1fARB(location, full_time);
-	location = glGetUniformLocationARB(cassini_sh.program, "size");
-	glUniform2fARB(location, 100, 100);
-	
-	glPushMatrix();
-
-	glTranslated(0, -1.2, 0);
-
-	
-	glBegin(GL_QUADS);
-	glNormal3d(0, 0, 1);
-	glTexCoord2d(1, 1);
-	glVertex3d(0.5, 0.5, 0);
-	glTexCoord2d(1, 0);
-	glVertex3d(0.5, -0.5, 0);
-	glTexCoord2d(0, 0);
-	glVertex3d(-0.5, -0.5, 0);
-	glTexCoord2d(0, 1);
-	glVertex3d(-0.5, 0.5, 0);
-	glEnd();
-
-
-	glPopMatrix();
+	drawCarSedan();
 
 
 
 
-
-
-
-	//Квадратик с освещением
-	phong_sh.UseShader();
-
-	float light_pos[4] = { light.x(),light.y(), light.z(), 1 };
-	float light_pos_v[4];
-	
-	//переносим координаты света в видовые координаты
-	MatrixMultiply<float, 1, 4, 4, 4>(light_pos, view_matrix, light_pos_v);
-
-	
-	location = glGetUniformLocationARB(phong_sh.program, "Ia");
-	glUniform3fARB(location, 1, 1, 1);
-	location = glGetUniformLocationARB(phong_sh.program, "Id");
-	glUniform3fARB(location, 1, 1, 1);
-	location = glGetUniformLocationARB(phong_sh.program, "Is");
-	glUniform3fARB(location, 1, 1, 1);
-
-	location = glGetUniformLocationARB(phong_sh.program, "ma");
-	glUniform3fARB(location, 0.1, 0.1, 0.1);
-	location = glGetUniformLocationARB(phong_sh.program, "md");
-	glUniform3fARB(location, 0.6, 0.6, 0.6);
-	location = glGetUniformLocationARB(phong_sh.program, "ms");
-	glUniform4fARB(location, 0, 1, 0, 300);
-		
-	
-	location = glGetUniformLocationARB(phong_sh.program, "light_pos_v");
-	glUniform3fvARB(location,1,light_pos_v);
-	
-	glPushMatrix();
-
-	glTranslated(0, 0, 0);
-	
-
-	glBegin(GL_QUADS);
-	glNormal3d(0, 0, 1);
-	glTexCoord2d(1, 1);
-	glVertex3d(0.5, 0.5, 0);
-	glTexCoord2d(1, 0);
-	glVertex3d(0.5, -0.5, 0);
-	glTexCoord2d(0, 0);
-	glVertex3d(-0.5, -0.5, 0);
-	glTexCoord2d(0, 1);
-	glVertex3d(-0.5, 0.5, 0);
-	glEnd();
-
-
-	glPopMatrix();
-
-
-
-	//Квадратик без освещения
-
-	Shader::DontUseShaders();
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glPushMatrix();
-
-	glTranslated(1.2, 0, 0);
-
-
-	glBegin(GL_QUADS);
-	glNormal3d(0, 0, 1);
-	glTexCoord2d(1, 1);
-	glVertex3d(0.5, 0.5, 0);
-	glTexCoord2d(1, 0);
-	glVertex3d(0.5, -0.5, 0);
-	glTexCoord2d(0, 0);
-	glVertex3d(-0.5, -0.5, 0);
-	glTexCoord2d(0, 1);
-	glVertex3d(-0.5, 0.5, 0);
-	glEnd();
-
-
-	glPopMatrix();
-
-
-	//квадратик с ВБ
-
-
-	vb_sh.UseShader();
-
-	glActiveTexture(GL_TEXTURE0);
-	stankin_tex.Bind();
-	glActiveTexture(GL_TEXTURE1);
-	vb_tex.Bind();
-
-	location = glGetUniformLocationARB(vb_sh.program, "time");
-	glUniform1fARB(location, full_time);
-	location = glGetUniformLocationARB(vb_sh.program, "tex_stankin");
-	glUniform1iARB(location, 0);
-	location = glGetUniformLocationARB(vb_sh.program, "tex_vb");
-	glUniform1iARB(location, 1);
-
-	glPushMatrix();
-
-	glTranslated(0, 1.2, 0);
-		glBegin(GL_QUADS);
-		glNormal3d(0, 0, 1);
-		glTexCoord2d(1, 1);
-		glVertex3d(0.5, 0.5, 0);
-		glTexCoord2d(1, 0);
-		glVertex3d(0.5, -0.5, 0);
-		glTexCoord2d(0, 0);
-		glVertex3d(-0.5, -0.5, 0);
-		glTexCoord2d(0, 1);
-		glVertex3d(-0.5, 0.5, 0);
-	glEnd();
-
-
-	glPopMatrix();
-
-
-	//обезьянка без шейдеров
-	glPushMatrix();
-	Shader::DontUseShaders();
-	glActiveTexture(GL_TEXTURE0);
-	monkey_tex.Bind();
-	glShadeModel(GL_SMOOTH);
-	glTranslated(-1, 0, 0.5);
-	glScaled(0.1, 0.1, 0.1);
-	glRotated(180, 0, 0, 1);
-	f.Draw();
-	glPopMatrix();
-
-	//обезьянка с шейдерами
-
-
-	simple_texture_sh.UseShader();
-	location = glGetUniformLocationARB(simple_texture_sh.program, "tex");
-	glUniform1iARB(location, 0);
-	glActiveTexture(GL_TEXTURE0);
-	monkey_tex.Bind();
-
-
-	glPushMatrix();
-	glTranslated(-1, 1, 0.5);
-	glScaled(0.1, 0.1, 0.1);
-	glRotated(180, 0, 0, 1);
-	f.Draw();
-	glPopMatrix();
-
-	//===============================================
 	
 	
 	//сбрасываем все трансформации
