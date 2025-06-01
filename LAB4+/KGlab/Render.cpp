@@ -8,6 +8,8 @@
 #include "GUItextRectangle.h"
 #include "MyShaders.h"
 #include "Texture.h"
+#include <vector>  // Для std::vector
+#include <chrono>  // Для работы со временем
 
 
 #include "ObjLoader.h"
@@ -17,258 +19,312 @@
 
 //---------------------Models----------------------
 
+class Car {
+public:
+	int id;	
+	float colorRed;
+	float colorGreen;
+	float colorBlue;
+	float positionX = 0;
+
+	Car() {
+		static int nextId = 0;
+		id = nextId++;
+		colorRed = 0.2 + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.6));
+		colorGreen = 0.2 + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.6));
+		colorBlue = 0.2 + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.6));
+	}
+
+	void drawCarSedan() {
+
+		//левая грань
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-3, -2, 0);
+		glVertex3f(-3, -2, 2.5);
+		glVertex3f(4, -2, 2.5);
+		glVertex3f(4, -2, 0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(4, -2, 0);
+		glVertex3f(4, -2, 2.5);
+		glVertex3f(5, -2, 2.5);
+		glVertex3f(5.5, -2, 1);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-5, -2, 1);
+		glVertex3f(-5, -2, 2);
+		glVertex3f(-3, -2, 2.5);
+		glVertex3f(-3, -2, 0);
+		glEnd();
 
 
-void drawCarSedan() {
-	
-	//левая грань
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(-3, -2, 0);
-	glVertex3f(-3, -2, 2.5);
-	glVertex3f(4, -2, 2.5);
-	glVertex3f(4, -2, 0);
-	glEnd();
+		//правая грань
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-3, 2, 0);
+		glVertex3f(-3, 2, 2.5);
+		glVertex3f(4, 2, 2.5);
+		glVertex3f(4, 2, 0);
+		glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(4, -2, 0);
-	glVertex3f(4, -2, 2.5);
-	glVertex3f(5, -2, 2.5);
-	glVertex3f(5.5, -2, 1);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(4, 2, 0);
+		glVertex3f(4, 2, 2.5);
+		glVertex3f(5, 2, 2.5);
+		glVertex3f(5.5, 2, 1);
+		glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(-5, -2, 1);
-	glVertex3f(-5, -2, 2);
-	glVertex3f(-3, -2, 2.5);
-	glVertex3f(-3, -2, 0);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-5, 2, 1);
+		glVertex3f(-5, 2, 2);
+		glVertex3f(-3, 2, 2.5);
+		glVertex3f(-3, 2, 0);
+		glEnd();
 
+		//перед
+		glBegin(GL_QUADS);
+		glColor3d(colorRed+0.1, colorGreen+0.1, colorBlue+0.1);
+		glVertex3f(-3, -2, 2.5);
+		glVertex3f(-5, -2, 2);
+		glVertex3f(-5, 2, 2);
+		glVertex3f(-3, 2, 2.5);
+		glEnd();
 
-	//правая грань
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(-3, 2, 0);
-	glVertex3f(-3, 2, 2.5);
-	glVertex3f(4, 2, 2.5);
-	glVertex3f(4, 2, 0);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed+0.1, colorGreen+0.1, colorBlue+0.1);
+		glVertex3f(-5, -2, 2);
+		glVertex3f(-5, -2, 1);
+		glVertex3f(-5, 2, 1);
+		glVertex3f(-5, 2, 2);
+		glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(4, 2, 0);
-	glVertex3f(4, 2, 2.5);
-	glVertex3f(5, 2, 2.5);
-	glVertex3f(5.5, 2, 1);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed-0.1, colorGreen-0.1, colorBlue-0.1);
+		glVertex3f(-5, 2, 1);
+		glVertex3f(-5, -2, 1);
+		glVertex3f(-3, -2, 0);
+		glVertex3f(-3, 2, 0);
+		glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(-5, 2, 1);
-	glVertex3f(-5, 2, 2);
-	glVertex3f(-3, 2, 2.5);
-	glVertex3f(-3, 2, 0);
-	glEnd();
+		//зад
+		glBegin(GL_QUADS);
+		glColor3d(colorRed+0.1, colorGreen+0.1, colorBlue+0.1);
+		glVertex3f(4, -2, 2.5);
+		glVertex3f(4, 2, 2.5);
+		glVertex3f(5, 2, 2.5);
+		glVertex3f(5, -2, 2.5);
+		glEnd();
 
-	//перед
-	glBegin(GL_QUADS);
-	glColor3d(0.486, 0.620, 0.686);
-	glVertex3f(-3, -2, 2.5);
-	glVertex3f(-5, -2, 2);
-	glVertex3f(-5, 2, 2);
-	glVertex3f(-3, 2, 2.5);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed+0.1, colorGreen+0.1, colorBlue+0.1);
+		glVertex3f(5, 2, 2.5);
+		glVertex3f(5, -2, 2.5);
+		glVertex3f(5.5, -2, 1);
+		glVertex3f(5.5, 2, 1);
+		glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.486, 0.620, 0.686);
-	glVertex3f(-5, -2, 2);
-	glVertex3f(-5, -2, 1);
-	glVertex3f(-5, 2, 1);
-	glVertex3f(-5, 2, 2);
-	glEnd();
-
-	glBegin(GL_QUADS);
-	glColor3d(0.286, 0.420, 0.486);
-	glVertex3f(-5, 2, 1);
-	glVertex3f(-5, -2, 1);
-	glVertex3f(-3, -2, 0);
-	glVertex3f(-3, 2, 0);
-	glEnd();
-
-	//зад
-	glBegin(GL_QUADS);
-	glColor3d(0.486, 0.620, 0.686);
-	glVertex3f(4, -2, 2.5);
-	glVertex3f(4, 2, 2.5);
-	glVertex3f(5, 2, 2.5);
-	glVertex3f(5, -2, 2.5);
-	glEnd();
-
-	glBegin(GL_QUADS);
-	glColor3d(0.486, 0.620, 0.686);
-	glVertex3f(5, 2, 2.5);
-	glVertex3f(5, -2, 2.5);
-	glVertex3f(5.5, -2, 1);
-	glVertex3f(5.5, 2, 1);
-	glEnd();
-
-	glBegin(GL_QUADS);
-	glColor3d(0.286, 0.420, 0.486);
-	glVertex3f(5.5, 2, 1);
-	glVertex3f(5.5, -2, 1);
-	glVertex3f(4, -2, 0);
-	glVertex3f(4, 2, 0);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed-0.1, colorGreen-0.1, colorBlue-0.1);
+		glVertex3f(5.5, 2, 1);
+		glVertex3f(5.5, -2, 1);
+		glVertex3f(4, -2, 0);
+		glVertex3f(4, 2, 0);
+		glEnd();
 
 
-	//дно
-	glBegin(GL_QUADS);
-	glColor3d(0.186, 0.320, 0.386);
-	glVertex3f(-3, -2, 0);
-	glVertex3f(-3, 2, 0);
-	glVertex3f(4, 2, 0);
-	glVertex3f(4, -2, 0);
-	glEnd();
+		//дно
+		glBegin(GL_QUADS);
+		glColor3d(colorRed-0.2, colorGreen-0.2, colorBlue-0.2);
+		glVertex3f(-3, -2, 0);
+		glVertex3f(-3, 2, 0);
+		glVertex3f(4, 2, 0);
+		glVertex3f(4, -2, 0);
+		glEnd();
 
 
 
-	//стойки кабины
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(-3, -2, 2.5);
-	glVertex3f(-1.1, -1.5, 7);
-	glVertex3f(-1, -1.5, 7);
-	glVertex3f(-2.7, -2, 2.5);
-	glEnd();
+		//стойки кабины
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-3, -2, 2.5);
+		glVertex3f(-1.1, -1.5, 7);
+		glVertex3f(-1, -1.5, 7);
+		glVertex3f(-2.7, -2, 2.5);
+		glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(1.5, -2, 2.5);
-	glVertex3f(1.5, -1.5, 7);
-	glVertex3f(1.6, -1.5, 7);
-	glVertex3f(1.8, -2, 2.5);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(1.5, -2, 2.5);
+		glVertex3f(1.5, -1.5, 7);
+		glVertex3f(1.6, -1.5, 7);
+		glVertex3f(1.8, -2, 2.5);
+		glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(3.7, -2, 2.5);
-	glVertex3f(2.5, -1.5, 7);
-	glVertex3f(2.6, -1.5, 7);
-	glVertex3f(4, -2, 2.5);
-	glEnd();
-
-
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(-3, 2, 2.5);
-	glVertex3f(-1.1, 1.5, 7);
-	glVertex3f(-1, 1.5, 7);
-	glVertex3f(-2.7, 2, 2.5);
-	glEnd();
-
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(1.5, 2, 2.5);
-	glVertex3f(1.5, 1.5, 7);
-	glVertex3f(1.6, 1.5, 7);
-	glVertex3f(1.8, 2, 2.5);
-	glEnd();
-
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(3.7, 2, 2.5);
-	glVertex3f(2.5, 1.5, 7);
-	glVertex3f(2.6, 1.5, 7);
-	glVertex3f(4, 2, 2.5);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(3.7, -2, 2.5);
+		glVertex3f(2.5, -1.5, 7);
+		glVertex3f(2.6, -1.5, 7);
+		glVertex3f(4, -2, 2.5);
+		glEnd();
 
 
-	glBegin(GL_QUADS);
-	glColor3d(0.486, 0.620, 0.686);
-	glVertex3f(-3, -2, 2.5);
-	glVertex3f(-3, -1.7, 2.5);
-	glVertex3f(-1.1, -1.4, 7);
-	glVertex3f(-1.1, -1.5, 7);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-3, 2, 2.5);
+		glVertex3f(-1.1, 1.5, 7);
+		glVertex3f(-1, 1.5, 7);
+		glVertex3f(-2.7, 2, 2.5);
+		glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.486, 0.620, 0.686);
-	glVertex3f(-3, 2, 2.5);
-	glVertex3f(-3, 1.7, 2.5);
-	glVertex3f(-1.1, 1.4, 7);
-	glVertex3f(-1.1, 1.5, 7);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(1.5, 2, 2.5);
+		glVertex3f(1.5, 1.5, 7);
+		glVertex3f(1.6, 1.5, 7);
+		glVertex3f(1.8, 2, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(3.7, 2, 2.5);
+		glVertex3f(2.5, 1.5, 7);
+		glVertex3f(2.6, 1.5, 7);
+		glVertex3f(4, 2, 2.5);
+		glEnd();
 
 
-	glBegin(GL_QUADS);
-	glColor3d(0.486, 0.620, 0.686);
-	glVertex3f(4, -2, 2.5);
-	glVertex3f(2.6, -1.5, 7);
-	glVertex3f(2.6, -1.4, 7);
-	glVertex3f(4, -1.7, 2.5);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed+0.1, colorGreen+0.1, colorBlue+0.1);
+		glVertex3f(-3, -2, 2.5);
+		glVertex3f(-3, -1.7, 2.5);
+		glVertex3f(-1.1, -1.4, 7);
+		glVertex3f(-1.1, -1.5, 7);
+		glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.486, 0.620, 0.686);
-	glVertex3f(4, 1.7, 2.5);
-	glVertex3f(2.6, 1.4, 7);
-	glVertex3f(2.6, 1.5, 7);
-	glVertex3f(4, 2, 2.5);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed+0.1, colorGreen+0.1, colorBlue+0.1);
+		glVertex3f(-3, 2, 2.5);
+		glVertex3f(-3, 1.7, 2.5);
+		glVertex3f(-1.1, 1.4, 7);
+		glVertex3f(-1.1, 1.5, 7);
+		glEnd();
 
-	//крыша
-	glBegin(GL_QUADS);
-	glColor3d(0.586, 0.720, 0.786);
-	glVertex3f(-1.1, -1.5, 7);
-	glVertex3f(-1.1, 1.5, 7);
-	glVertex3f(2.6, 1.5, 7);
-	glVertex3f(2.6, -1.5, 7);
-	glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(-1.1, -1.5, 6.9);
-	glVertex3f(-1.1, 1.5, 6.9);
-	glVertex3f(2.6, 1.5, 6.9);
-	glVertex3f(2.6, -1.5, 6.9);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed+0.1, colorGreen+0.1, colorBlue+0.1);
+		glVertex3f(4, -2, 2.5);
+		glVertex3f(2.6, -1.5, 7);
+		glVertex3f(2.6, -1.4, 7);
+		glVertex3f(4, -1.7, 2.5);
+		glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.476, 0.610, 0.676);
-	glVertex3f(-1.1, -1.5, 7);
-	glVertex3f(-1.1, 1.5, 7);
-	glVertex3f(-1.1, 1.5, 6.9);
-	glVertex3f(-1.1, -1.5, 6.9);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed+0.1, colorGreen+0.1, colorBlue+0.1);
+		glVertex3f(4, 1.7, 2.5);
+		glVertex3f(2.6, 1.4, 7);
+		glVertex3f(2.6, 1.5, 7);
+		glVertex3f(4, 2, 2.5);
+		glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.476, 0.610, 0.676);
-	glVertex3f(2.6, -1.5, 7);
-	glVertex3f(2.6, 1.5, 7);
-	glVertex3f(2.6, 1.5, 6.9);
-	glVertex3f(2.6, -1.5, 6.9);
-	glEnd();
+		//крыша
+		glBegin(GL_QUADS);
+		glColor3d(colorRed+0.2, colorGreen+0.2, colorBlue+0.2);
+		glVertex3f(-1.1, -1.5, 7);
+		glVertex3f(-1.1, 1.5, 7);
+		glVertex3f(2.6, 1.5, 7);
+		glVertex3f(2.6, -1.5, 7);
+		glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(-1.1, 1.5, 7);
-	glVertex3f(2.6, 1.5, 7);
-	glVertex3f(2.6, 1.5, 6.9);
-	glVertex3f(-1.1, 1.5, 6.9);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-1.1, -1.5, 6.9);
+		glVertex3f(-1.1, 1.5, 6.9);
+		glVertex3f(2.6, 1.5, 6.9);
+		glVertex3f(2.6, -1.5, 6.9);
+		glEnd();
 
-	glBegin(GL_QUADS);
-	glColor3d(0.376, 0.510, 0.576);
-	glVertex3f(-1.1, -1.5, 7);
-	glVertex3f(2.6, -1.5, 7);
-	glVertex3f(2.6, -1.5, 6.9);
-	glVertex3f(-1.1, -1.5, 6.9);
-	glEnd();
+		glBegin(GL_QUADS);
+		glColor3d(colorRed+0.1, colorGreen+0.1, colorBlue+0.1);
+		glVertex3f(-1.1, -1.5, 7);
+		glVertex3f(-1.1, 1.5, 7);
+		glVertex3f(-1.1, 1.5, 6.9);
+		glVertex3f(-1.1, -1.5, 6.9);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed+0.1, colorGreen+0.1, colorBlue+0.1);
+		glVertex3f(2.6, -1.5, 7);
+		glVertex3f(2.6, 1.5, 7);
+		glVertex3f(2.6, 1.5, 6.9);
+		glVertex3f(2.6, -1.5, 6.9);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-1.1, 1.5, 7);
+		glVertex3f(2.6, 1.5, 7);
+		glVertex3f(2.6, 1.5, 6.9);
+		glVertex3f(-1.1, 1.5, 6.9);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-1.1, -1.5, 7);
+		glVertex3f(2.6, -1.5, 7);
+		glVertex3f(2.6, -1.5, 6.9);
+		glVertex3f(-1.1, -1.5, 6.9);
+		glEnd();
+	}
+};
+
+
+
+
+std::vector<Car> cars;
+
+void UpdateCars(double delta_time) {
+	float spawnInterval;
+	spawnInterval = 2;
+	const float leftBound = 60;
+	const float rightBound = -60;
+
+	static float nextCarTime = 0;
+	nextCarTime += delta_time;
+
+	if (nextCarTime >= spawnInterval) {
+		cars.emplace_back(); 
+		cars.back().positionX = leftBound; 
+		nextCarTime = 0;
+	}
+
+	for (auto it = cars.begin(); it != cars.end(); ) {
+		it->positionX += 20 * -delta_time;
+
+		if (it->positionX < rightBound) {
+			it = cars.erase(it);
+		}
+		else {
+			++it;
+		}
+	}
 }
 
-
+void DrawCars() {
+	for (auto& car : cars) {
+		glPushMatrix();
+		glTranslatef(car.positionX, 0, 0);
+		car.drawCarSedan();
+		glPopMatrix();
+	}
+}
 
 
 //-------------------------------------------------
@@ -353,6 +409,7 @@ Texture stankin_tex, vb_tex, monkey_tex;
 
 void initRender()
 {
+	srand(static_cast<unsigned int>(time(nullptr)));
 
 	cassini_sh.VshaderFileName = "shaders/v.vert";
 	cassini_sh.FshaderFileName = "shaders/cassini.frag";
@@ -493,13 +550,18 @@ void Render(double delta_time)
 	//============ РИСОВАТЬ ТУТ ==============
 
 	
+	glBegin(GL_QUADS);
+	glColor3d(0.8, 0.8, 0.8);
+	glVertex3f(60, 20, -0.5);
+	glVertex3f(60, -20, -0.5);
+	glVertex3f(-60, -20, -0.5);
+	glVertex3f(-60, 20, -0.5);
+	glEnd();
+
+	UpdateCars(delta_time);
+	DrawCars();
 
 	
-
-
-	drawCarSedan();
-
-
 
 
 	
