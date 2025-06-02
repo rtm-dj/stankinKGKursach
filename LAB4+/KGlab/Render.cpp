@@ -18,6 +18,125 @@
 #include "debout.h"
 
 //---------------------Models----------------------
+// Глобальная переменная для угла вращения
+float wheelRotationAngle = 0.0f;
+
+void drawWheel(float x, float y, float z, bool isRotating = true) {
+	const float wheelRadius = 0.7f;
+	const float wheelWidth = 0.4f;
+	const int segments = 6;
+
+	// Обновляем угол вращения (если колесо должно вращаться)
+	if (isRotating) {
+		wheelRotationAngle += 2.0f; // Скорость вращения
+		if (wheelRotationAngle > 360.0f) {
+			wheelRotationAngle -= 360.0f;
+		}
+	}
+
+	glPushMatrix();
+	// Позиционирование колеса
+	glTranslatef(x, y, z);
+
+	// Вращение вокруг оси Z (теперь колесо будет крутиться "вперед")
+	glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
+	glRotatef(wheelRotationAngle, 0.0f, 0.0f, 1.0f);
+
+	// Боковая поверхность (шина)
+	glColor3f(0.1f, 0.1f, 0.1f);
+	glBegin(GL_QUAD_STRIP);
+	for (int i = 0; i <= segments; ++i) {
+		float angle = 2.0f * 3.14f * i / segments;
+		float cosA = cos(angle);
+		float sinA = sin(angle);
+
+		glVertex3f(cosA * wheelRadius, sinA * wheelRadius, wheelWidth / 2);
+		glVertex3f(cosA * wheelRadius, sinA * wheelRadius, -wheelWidth / 2);
+	}
+	glEnd();
+
+	// Передняя сторона (диск)
+	glColor3f(0.5f, 0.5f, 0.5f);
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(0.0f, 0.0f, wheelWidth / 2);
+	for (int i = 0; i <= segments; ++i) {
+		float angle = 2.0f * 3.14f * i / segments;
+		glVertex3f(cos(angle) * wheelRadius, sin(angle) * wheelRadius, wheelWidth / 2);
+	}
+	glEnd();
+
+	// Задняя сторона (диск)
+	glColor3f(0.3f, 0.3f, 0.3f);
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(0.0f, 0.0f, -wheelWidth / 2);
+	for (int i = segments; i >= 0; --i) {
+		float angle = 2.0f * 3.14f * i / segments;
+		glVertex3f(cos(angle) * wheelRadius, sin(angle) * wheelRadius, -wheelWidth / 2);
+	}
+	glEnd();
+
+	// Спицы колеса
+	glColor3f(0.2f, 0.2f, 0.2f);
+	glBegin(GL_LINES);
+	for (int i = 0; i < segments; ++i) {
+		float angle = 2.0f * 3.14f * i / segments;
+		glVertex3f(0.0f, 0.0f, 0.0f);
+		glVertex3f(cos(angle) * wheelRadius * 0.7f, sin(angle) * wheelRadius * 0.7f, 0.0f);
+	}
+	glEnd();
+
+	glPopMatrix();
+}
+
+void drawVihlop(float x, float y, float z) {
+	const float wheelRadius = 0.2f;
+	const float wheelWidth = 1;
+	const int segments = 6;
+
+	glPushMatrix();
+	glTranslatef(x, y, z);
+	glRotatef(90, 0, 1, 0);
+	glColor3f(0.1f, 0.1f, 0.1f);
+	glBegin(GL_QUAD_STRIP);
+	for (int i = 0; i <= segments; ++i) {
+		float angle = 2.0f * 3.14f * i / segments;
+		float cosA = cos(angle);
+		float sinA = sin(angle);
+
+		glVertex3f(cosA * wheelRadius, sinA * wheelRadius, wheelWidth / 2);
+		glVertex3f(cosA * wheelRadius, sinA * wheelRadius, -wheelWidth / 2);
+	}
+	glEnd();
+
+	glColor3f(0.5f, 0.5f, 0.5f);
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(0.0f, 0.0f, wheelWidth / 2);
+	for (int i = 0; i <= segments; ++i) {
+		float angle = 2.0f * 3.14f * i / segments;
+		glVertex3f(cos(angle) * wheelRadius, sin(angle) * wheelRadius, wheelWidth / 2);
+	}
+	glEnd();
+
+	glColor3f(0.3f, 0.3f, 0.3f);
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(0.0f, 0.0f, -wheelWidth / 2);
+	for (int i = segments; i >= 0; --i) {
+		float angle = 2.0f * 3.14f * i / segments;
+		glVertex3f(cos(angle) * wheelRadius, sin(angle) * wheelRadius, -wheelWidth / 2);
+	}
+	glEnd();
+
+	glColor3f(0.2f, 0.2f, 0.2f);
+	glBegin(GL_LINES);
+	for (int i = 0; i < segments; ++i) {
+		float angle = 2.0f * 3.14f * i / segments;
+		glVertex3f(0.0f, 0.0f, 0.0f);
+		glVertex3f(cos(angle) * wheelRadius * 0.7f, sin(angle) * wheelRadius * 0.7f, 0.0f);
+	}
+	glEnd();
+	glPopMatrix();
+}
+
 
 class Car {
 public:
@@ -36,6 +155,15 @@ public:
 	}
 
 	void drawCarSedan() {
+		drawWheel(-2, -2.3, 0.5);
+		drawWheel(-2, 2.3, 0.5);
+		drawWheel(3, -2.3, 0.5);
+		drawWheel(3, 2.3, 0.5);
+
+		drawVihlop(5.5, 1, 1);
+
+		
+		
 
 		//левая грань
 		glBegin(GL_QUADS);
@@ -560,9 +688,6 @@ void Render(double delta_time)
 
 	UpdateCars(delta_time);
 	DrawCars();
-
-	
-
 
 	
 	
