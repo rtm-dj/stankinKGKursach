@@ -24,7 +24,7 @@ float wheelRotationAngle = 0.0f;
 void drawWheel(float x, float y, float z, bool isRotating = true) {
 	const float wheelRadius = 0.7f;
 	const float wheelWidth = 0.4f;
-	const int segments = 6;
+	const int segments = 10;
 
 	// Обновляем угол вращения (если колесо должно вращаться)
 	if (isRotating) {
@@ -39,7 +39,7 @@ void drawWheel(float x, float y, float z, bool isRotating = true) {
 	glTranslatef(x, y, z);
 
 	// Вращение вокруг оси Z (теперь колесо будет крутиться "вперед")
-	glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
+	glRotatef(-270.0, 1.0f, 0.0f, 0.0f);
 	glRotatef(wheelRotationAngle, 0.0f, 0.0f, 1.0f);
 
 	// Боковая поверхность (шина)
@@ -421,8 +421,8 @@ std::vector<Car> cars;
 void UpdateCars(double delta_time) {
 	float spawnInterval;
 	spawnInterval = 2;
-	const float leftBound = 60;
-	const float rightBound = -60;
+	const float leftBound = 40;
+	const float rightBound = -40;
 
 	static float nextCarTime = 0;
 	nextCarTime += delta_time;
@@ -448,7 +448,7 @@ void UpdateCars(double delta_time) {
 void DrawCars() {
 	for (auto& car : cars) {
 		glPushMatrix();
-		glTranslatef(car.positionX, 0, 0);
+		glTranslatef(car.positionX, 3, 0);
 		car.drawCarSedan();
 		glPopMatrix();
 	}
@@ -519,8 +519,6 @@ void MatrixMultiply(const T* a, const T* b, T* c)
 //но ооооочень не оптимальный
 GuiTextRectangle text;
 
-//айдишник для текстуры
-GLuint texId;
 //выполняется один раз перед первым рендером
 
 ObjModel f;
@@ -531,7 +529,7 @@ Shader phong_sh;
 Shader vb_sh;
 Shader simple_texture_sh;
 
-Texture stankin_tex, vb_tex, monkey_tex;
+Texture road_texture;
 
 
 
@@ -559,16 +557,11 @@ void initRender()
 	simple_texture_sh.LoadShaderFromFile();
 	simple_texture_sh.Compile();
 
-	stankin_tex.LoadTexture("textures/stankin.png");
-	vb_tex.LoadTexture("textures/vb.png");
-	monkey_tex.LoadTexture("textures/monkey.png");
+	
 
-
-	f.LoadModel("models//monkey.obj_m");
 	//==============НАСТРОЙКА ТЕКСТУР================
 	//4 байта на хранение пикселя
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-
 	
 
 	//================НАСТРОЙКА КАМЕРЫ======================
@@ -625,9 +618,6 @@ void Render(double delta_time)
 	//рисуем оси
 	gl.DrawAxes();
 
-	
-
-	glBindTexture(GL_TEXTURE_2D, 0);
 
 	//включаем нормализацию нормалей
 	//чтобв glScaled не влияли на них.
@@ -651,45 +641,41 @@ void Render(double delta_time)
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
-		
-	//=============НАСТРОЙКА МАТЕРИАЛА==============
-
-
-	//настройка материала, все что рисуется ниже будет иметь этот метериал.
-	//массивы с настройками материала
-	float  amb[] = { 0.2, 0.2, 0.1, 1. };
-	float dif[] = { 0.4, 0.65, 0.5, 1. };
-	float spec[] = { 0.9, 0.8, 0.3, 1. };
-	float sh = 0.2f * 256;
-
-	//фоновая
-	glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
-	//дифузная
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
-	//зеркальная
-	glMaterialfv(GL_FRONT, GL_SPECULAR, spec); 
-	//размер блика
-	glMaterialf(GL_FRONT, GL_SHININESS, sh);
-
-	//чтоб было красиво, без квадратиков (сглаживание освещения)
-	glShadeModel(GL_SMOOTH); //закраска по Гуро      
-			   //(GL_SMOOTH - плоская закраска)
+	
 
 	//============ РИСОВАТЬ ТУТ ==============
 
 	
-	glBegin(GL_QUADS);
-	glColor3d(0.8, 0.8, 0.8);
-	glVertex3f(60, 20, -0.5);
-	glVertex3f(60, -20, -0.5);
-	glVertex3f(-60, -20, -0.5);
-	glVertex3f(-60, 20, -0.5);
-	glEnd();
 
 	UpdateCars(delta_time);
 	DrawCars();
 
-	
+
+	road_texture.LoadTexture("textures/road.jpg");
+	unsigned int texId = road_texture.GetID();
+	// Включение текстуры
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texId);
+
+	// Рисуем дорогу
+	glBegin(GL_QUADS);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glTexCoord2f(0, 1); glVertex3f(40, 12, -0.5);
+	glTexCoord2f(1, 1); glVertex3f(40, -12, -0.5);
+	glTexCoord2f(1, 0); glVertex3f(-40, -12, -0.5);
+	glTexCoord2f(0, 0); glVertex3f(-40, 12, -0.5);
+	glEnd();
+
+	/*glBegin(GL_QUADS);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(60, 10, -0.2);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(60, -10, -0.2);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-60, -10, -0.2);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-60, 10, -0.2);
+	glEnd();*/
+
+
+	glDisable(GL_TEXTURE_2D);
 	
 	//сбрасываем все трансформации
 	glLoadIdentity();
