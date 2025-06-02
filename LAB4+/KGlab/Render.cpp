@@ -10,7 +10,8 @@
 #include "Texture.h"
 #include <vector>  // Для std::vector
 #include <chrono>  // Для работы со временем
-
+#include <random>
+#include <map>
 
 #include "ObjLoader.h"
 
@@ -145,6 +146,16 @@ public:
 	float colorGreen;
 	float colorBlue;
 	float positionX = 0;
+	bool isSuv;
+
+	void draw() {
+		if (isSuv) {
+			drawCarSuv();
+		}
+		else {
+			drawCarSedan();
+		}
+	}
 
 	Car() {
 		static int nextId = 0;
@@ -152,6 +163,228 @@ public:
 		colorRed = 0.2 + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.6));
 		colorGreen = 0.2 + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.6));
 		colorBlue = 0.2 + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.6));
+		isSuv = (std::rand() % 2 == 1);
+	}
+
+	void drawCarSuv() {
+		//левая грань
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-3, -2, 0);
+		glVertex3f(-3, -2, 2.5);
+		glVertex3f(8, -2, 2.5);
+		glVertex3f(8, -2, 0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(8, -2, 0);
+		glVertex3f(8, -2, 2.5);
+		glVertex3f(8.3, -2, 2.5);
+		glVertex3f(8.3, -2, 1);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-8, -2, 1);
+		glVertex3f(-8, -2, 2);
+		glVertex3f(-3, -2, 2.5);
+		glVertex3f(-3, -2, 0);
+		glEnd();
+
+
+		//правая грань
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-3, 2, 0);
+		glVertex3f(-3, 2, 2.5);
+		glVertex3f(8, 2, 2.5);
+		glVertex3f(8, 2, 0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(8, 2, 0);
+		glVertex3f(8, 2, 2.5);
+		glVertex3f(8.3, 2, 2.5);
+		glVertex3f(8.3, 2, 1);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-8, 2, 1);
+		glVertex3f(-8, 2, 2);
+		glVertex3f(-3, 2, 2.5);
+		glVertex3f(-3, 2, 0);
+		glEnd();
+
+
+		//перед
+		glBegin(GL_QUADS);
+		glColor3d(colorRed + 0.1, colorGreen + 0.1, colorBlue + 0.1);
+		glVertex3f(-3, -2, 2.5);
+		glVertex3f(-8, -2, 2);
+		glVertex3f(-8, 2, 2);
+		glVertex3f(-3, 2, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed + 0.1, colorGreen + 0.1, colorBlue + 0.1);
+		glVertex3f(-8, -2, 2);
+		glVertex3f(-8, -2, 1);
+		glVertex3f(-8, 2, 1);
+		glVertex3f(-8, 2, 2);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed - 0.1, colorGreen - 0.1, colorBlue - 0.1);
+		glVertex3f(-8, 2, 1);
+		glVertex3f(-8, -2, 1);
+		glVertex3f(-3, -2, 0);
+		glVertex3f(-3, 2, 0);
+		glEnd();
+
+		//зад
+		glBegin(GL_QUADS);
+		glColor3d(colorRed + 0.1, colorGreen + 0.1, colorBlue + 0.1);
+		glVertex3f(8, -2, 2.5);
+		glVertex3f(8, 2, 2.5);
+		glVertex3f(8, 2, 2.5);
+		glVertex3f(8, -2, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed + 0.1, colorGreen + 0.1, colorBlue + 0.1);
+		glVertex3f(8, 2, 2.5);
+		glVertex3f(8, -2, 2.5);
+		glVertex3f(8.3, -2, 1);
+		glVertex3f(8.3, 2, 1);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed - 0.1, colorGreen - 0.1, colorBlue - 0.1);
+		glVertex3f(8.3, 2, 1);
+		glVertex3f(8.3, -2, 1);
+		glVertex3f(8, -2, 0);
+		glVertex3f(8, 2, 0);
+		glEnd();
+
+
+		//дно
+		glBegin(GL_QUADS);
+		glColor3d(colorRed - 0.2, colorGreen - 0.2, colorBlue - 0.2);
+		glVertex3f(-3, -2, 0);
+		glVertex3f(-3, 2, 0);
+		glVertex3f(8, 2, 0);
+		glVertex3f(8, -2, 0);
+		glEnd();
+
+
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-3, -2, 2.5);
+		glVertex3f(-1.1, -1.5, 7);
+		glVertex3f(-1, -1.5, 7);
+		glVertex3f(-2.7, -2, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(1.5, -2, 2.5);
+		glVertex3f(1.5, -1.5, 7);
+		glVertex3f(1.6, -1.5, 7);
+		glVertex3f(1.8, -2, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(7.7, -2, 2.5);
+		glVertex3f(7.6, -1.5, 7);
+		glVertex3f(7.7, -1.5, 7);
+		glVertex3f(8, -2, 2.5);
+		glEnd();
+
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-3, 2, 2.5);
+		glVertex3f(-1.1, 1.5, 7);
+		glVertex3f(-1, 1.5, 7);
+		glVertex3f(-2.7, 2, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(1.5, 2, 2.5);
+		glVertex3f(1.5, 1.5, 7);
+		glVertex3f(1.6, 1.5, 7);
+		glVertex3f(1.8, 2, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(7.7, 2, 2.5);
+		glVertex3f(7.6, 1.5, 7);
+		glVertex3f(7.7, 1.5, 7);
+		glVertex3f(8, 2, 2.5);
+		glEnd();
+
+
+		//крыша
+		glBegin(GL_QUADS);
+		glColor3d(colorRed + 0.2, colorGreen + 0.2, colorBlue + 0.2);
+		glVertex3f(-1.1, -1.5, 7);
+		glVertex3f(-1.1, 1.5, 7);
+		glVertex3f(7.7, 1.5, 7);
+		glVertex3f(7.7, -1.5, 7);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-1.1, -1.5, 6.9);
+		glVertex3f(-1.1, 1.5, 6.9);
+		glVertex3f(7.7, 1.5, 6.9);
+		glVertex3f(7.7, -1.5, 6.9);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed + 0.1, colorGreen + 0.1, colorBlue + 0.1);
+		glVertex3f(-1.1, -1.5, 7);
+		glVertex3f(-1.1, 1.5, 7);
+		glVertex3f(-1.1, 1.5, 6.9);
+		glVertex3f(-1.1, -1.5, 6.9);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed + 0.1, colorGreen + 0.1, colorBlue + 0.1);
+		glVertex3f(7.7, -1.5, 7);
+		glVertex3f(7.7, 1.5, 7);
+		glVertex3f(7.7, 1.5, 6.9);
+		glVertex3f(7.7, -1.5, 6.9);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-1.1, 1.5, 7);
+		glVertex3f(7.7, 1.5, 7);
+		glVertex3f(7.7, 1.5, 6.9);
+		glVertex3f(-1.1, 1.5, 6.9);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed, colorGreen, colorBlue);
+		glVertex3f(-1.1, -1.5, 7);
+		glVertex3f(7.7, -1.5, 7);
+		glVertex3f(7.7, -1.5, 6.9);
+		glVertex3f(-1.1, -1.5, 6.9);
+		glEnd();
+
+		drawWheel(-2.5, -2.3, 0.5);
+		drawWheel(-2.5, 2.3, 0.5);
+		drawWheel(3.3, -2.3, 0.5);
+		drawWheel(3.3, 2.3, 0.5);
+		drawVihlop(8, 1, 1);
 	}
 
 	void drawCarSedan() {
@@ -417,27 +650,54 @@ public:
 
 
 std::vector<Car> cars;
+std::vector<Car> oncomingCars;
+bool trafficStopped = false;
+float savedSpeed = 20.0f;
+
+void SetTrafficState() {
+	trafficStopped = !trafficStopped;
+}
 
 void UpdateCars(double delta_time) {
-	float spawnInterval;
-	spawnInterval = 2;
+	float spawnInterval = 2.0f;
 	const float leftBound = 40;
 	const float rightBound = -40;
 
 	static float nextCarTime = 0;
-	nextCarTime += delta_time;
+	static float nextOncomingCarTime = 0;
 
-	if (nextCarTime >= spawnInterval) {
-		cars.emplace_back(); 
-		cars.back().positionX = leftBound; 
+	nextCarTime += delta_time;
+	nextOncomingCarTime += delta_time;
+
+	if (nextCarTime >= spawnInterval && !trafficStopped) {
+		cars.emplace_back();
+		cars.back().positionX = leftBound;
 		nextCarTime = 0;
 	}
 
-	for (auto it = cars.begin(); it != cars.end(); ) {
-		it->positionX += 20 * -delta_time;
+	if (nextOncomingCarTime >= spawnInterval * 2 && !trafficStopped) {
+		oncomingCars.emplace_back();
+		oncomingCars.back().positionX = rightBound;
+		nextOncomingCarTime = 0;
+	}
 
+	float currentSpeed = trafficStopped ? 0.0f : savedSpeed;
+
+	for (auto it = cars.begin(); it != cars.end(); ) {
+		it->positionX += currentSpeed * -delta_time;
 		if (it->positionX < rightBound) {
 			it = cars.erase(it);
+		}
+		else {
+			++it;
+		}
+	}
+
+	// Встречный поток
+	for (auto it = oncomingCars.begin(); it != oncomingCars.end(); ) {
+		it->positionX += currentSpeed * delta_time;
+		if (it->positionX > leftBound) {
+			it = oncomingCars.erase(it);
 		}
 		else {
 			++it;
@@ -446,14 +706,23 @@ void UpdateCars(double delta_time) {
 }
 
 void DrawCars() {
+	// Отрисовка основного потока
 	for (auto& car : cars) {
 		glPushMatrix();
-		glTranslatef(car.positionX, 3, 0);
-		car.drawCarSedan();
+		glTranslatef(car.positionX, 3, 0);  // Выше на дороге
+		car.draw();
+		glPopMatrix();
+	}
+
+	// Отрисовка встречного потока
+	for (auto& car : oncomingCars) {
+		glPushMatrix();
+		glTranslatef(car.positionX, -3, 0);
+		glScalef(-1, 1, 1);           // Альтернатива: зеркальное отражение
+		car.draw();
 		glPopMatrix();
 	}
 }
-
 
 //-------------------------------------------------
 
@@ -490,6 +759,9 @@ void switchModes(OpenGL *sender, KeyEventArg arg)
 		break;
 	case 'A':
 		alpha = !alpha;
+		break;
+	case ' ':
+		SetTrafficState();
 		break;
 	}
 }
