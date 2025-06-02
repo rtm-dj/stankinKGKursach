@@ -280,7 +280,7 @@ public:
 		glEnd();
 
 
-
+		//стойки
 		glBegin(GL_QUADS);
 		glColor3d(colorRed, colorGreen, colorBlue);
 		glVertex3f(-3, -2, 2.5);
@@ -329,6 +329,8 @@ public:
 		glVertex3f(7.7, 1.5, 7);
 		glVertex3f(8, 2, 2.5);
 		glEnd();
+
+
 
 
 		//крыша
@@ -930,21 +932,21 @@ void Render(double delta_time)
 	glBindTexture(GL_TEXTURE_2D, texId);
 
 	// Рисуем дорогу
-	glBegin(GL_QUADS);
+	/*glBegin(GL_QUADS);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glTexCoord2f(0, 1); glVertex3f(40, 12, -0.5);
 	glTexCoord2f(1, 1); glVertex3f(40, -12, -0.5);
 	glTexCoord2f(1, 0); glVertex3f(-40, -12, -0.5);
 	glTexCoord2f(0, 0); glVertex3f(-40, 12, -0.5);
-	glEnd();
+	glEnd();*/
 
-	/*glBegin(GL_QUADS);
+	glBegin(GL_QUADS);
 	glColor3f(1.0f, 1.0f, 1.0f);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(60, 10, -0.2);
-	glTexCoord2f(1.0f, 0.0f); glVertex3f(60, -10, -0.2);
+	glTexCoord2f(2, 1.0f); glVertex3f(60, 10, -0.2);
+	glTexCoord2f(2, 0.0f); glVertex3f(60, -10, -0.2);
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-60, -10, -0.2);
 	glTexCoord2f(0.0f, 1.0f); glVertex3f(-60, 10, -0.2);
-	glEnd();*/
+	glEnd();
 
 
 	glDisable(GL_TEXTURE_2D);
