@@ -695,7 +695,6 @@ void UpdateCars(double delta_time) {
 		}
 	}
 
-	// Встречный поток
 	for (auto it = oncomingCars.begin(); it != oncomingCars.end(); ) {
 		it->positionX += currentSpeed * delta_time;
 		if (it->positionX > leftBound) {
@@ -708,19 +707,17 @@ void UpdateCars(double delta_time) {
 }
 
 void DrawCars() {
-	// Отрисовка основного потока
 	for (auto& car : cars) {
 		glPushMatrix();
-		glTranslatef(car.positionX, 3, 0);  // Выше на дороге
+		glTranslatef(car.positionX, 3, 0);
 		car.draw();
 		glPopMatrix();
 	}
 
-	// Отрисовка встречного потока
 	for (auto& car : oncomingCars) {
 		glPushMatrix();
 		glTranslatef(car.positionX, -3, 0);
-		glScalef(-1, 1, 1);           // Альтернатива: зеркальное отражение
+		glScalef(-1, 1, 1);
 		car.draw();
 		glPopMatrix();
 	}
@@ -740,9 +737,7 @@ Light light;
 Camera camera;
 
 
-bool texturing = true;
-bool lightning = false;
-bool alpha = false;
+bool simulation = true;
 
 
 //переключение режимов освещения, текстурирования, альфаналожения
@@ -753,17 +748,9 @@ void switchModes(OpenGL *sender, KeyEventArg arg)
 
 	switch (key)
 	{
-	case 'L':
-		lightning = !lightning;
-		break;
-	case 'T':
-		texturing = !texturing;
-		break;
-	case 'A':
-		alpha = !alpha;
-		break;
 	case ' ':
 		SetTrafficState();
+		simulation = !simulation;
 		break;
 	}
 }
@@ -902,19 +889,8 @@ void Render(double delta_time)
 	glDisable(GL_BLEND);
 	
 	//включаем режимы, в зависимости от нажания клавиш. см void switchModes(OpenGL *sender, KeyEventArg arg)
-	if (lightning)
-		glEnable(GL_LIGHTING);
-	if (texturing)
-	{
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, 0); //сбрасываем текущую текстуру
-	}
-		
-	if (alpha)
-	{
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	
 
 	//============ РИСОВАТЬ ТУТ ==============
@@ -984,15 +960,7 @@ void Render(double delta_time)
 	
 	std::wstringstream ss;
 	ss << std::fixed << std::setprecision(3);
-	ss << "T - " << (texturing ? L"[вкл]выкл  " : L" вкл[выкл] ") << L"текстур" << std::endl;
-	ss << "L - " << (lightning ? L"[вкл]выкл  " : L" вкл[выкл] ") << L"освещение" << std::endl;
-	ss << "A - " << (alpha ? L"[вкл]выкл  " : L" вкл[выкл] ") << L"альфа-наложение" << std::endl;
-	ss << L"F - Свет из камеры" << std::endl;
-	ss << L"G - двигать свет по горизонтали" << std::endl;
-	ss << L"G+ЛКМ двигать свет по вертекали" << std::endl;
-	ss << L"Коорд. света: (" << std::setw(7) <<  light.x() << "," << std::setw(7) << light.y() << "," << std::setw(7) << light.z() << ")" << std::endl;
-	ss << L"Коорд. камеры: (" << std::setw(7) << camera.x() << "," << std::setw(7) << camera.y() << "," << std::setw(7) << camera.z() << ")" << std::endl;
-	ss << L"Параметры камеры: R=" << std::setw(7) << camera.distance() << ",fi1=" << std::setw(7) << camera.fi1() << ",fi2=" << std::setw(7) << camera.fi2() << std::endl;
+	ss << "Space - " << (simulation ? L"[вкл]выкл  " : L" вкл[выкл] ") << L"симуляции" << std::endl;
 	ss << L"delta_time: " << std::setprecision(5)<< delta_time << std::endl;
 	ss << L"full_time: " << std::setprecision(2) << full_time << std::endl;
 
