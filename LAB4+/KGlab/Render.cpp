@@ -89,6 +89,58 @@ void drawWheel(float x, float y, float z, bool isRotating = true) {
 	glPopMatrix();
 }
 
+void drawLights(float x, float y, float z, float width, float height, float depth, int type) {
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	if (type == 0)
+		glColor4f(1.0, 1.0, 0.0, 0.5); // Желтый
+	else
+		glColor4f(1.0, 0.0, 0.0, 0.5); // Красный
+
+	float x1 = x;
+	float y1 = y;
+	float z1 = z;
+	float x2 = x + width;
+	float y2 = y + height;
+	float z2 = z + depth;
+
+	glBegin(GL_QUADS);
+	glVertex3f(x1, y1, z1);
+	glVertex3f(x2, y1, z1);
+	glVertex3f(x2, y2, z1);
+	glVertex3f(x1, y2, z1);
+
+	glVertex3f(x1, y1, z2);
+	glVertex3f(x2, y1, z2);
+	glVertex3f(x2, y2, z2);
+	glVertex3f(x1, y2, z2);
+
+	glVertex3f(x1, y1, z1);
+	glVertex3f(x1, y1, z2);
+	glVertex3f(x1, y2, z2);
+	glVertex3f(x1, y2, z1);
+
+	glVertex3f(x2, y1, z1);
+	glVertex3f(x2, y1, z2);
+	glVertex3f(x2, y2, z2);
+	glVertex3f(x2, y2, z1);
+
+	glVertex3f(x1, y2, z1);
+	glVertex3f(x2, y2, z1);
+	glVertex3f(x2, y2, z2);
+	glVertex3f(x1, y2, z2);
+
+	glVertex3f(x1, y1, z1);
+	glVertex3f(x2, y1, z1);
+	glVertex3f(x2, y1, z2);
+	glVertex3f(x1, y1, z2);
+	glEnd();
+
+	glDisable(GL_BLEND);
+}
+
+
 void drawVihlop(float x, float y, float z) {
 	const float wheelRadius = 0.2f;
 	const float wheelWidth = 1;
@@ -331,6 +383,39 @@ public:
 		glEnd();
 
 
+		glBegin(GL_QUADS);
+		glColor3d(colorRed + 0.1, colorGreen + 0.1, colorBlue + 0.1);
+		glVertex3f(-3, -2, 2.5);
+		glVertex3f(-3, -1.7, 2.5);
+		glVertex3f(-1.1, -1.4, 7);
+		glVertex3f(-1.1, -1.5, 7);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed + 0.1, colorGreen + 0.1, colorBlue + 0.1);
+		glVertex3f(-3, 2, 2.5);
+		glVertex3f(-3, 1.7, 2.5);
+		glVertex3f(-1.1, 1.4, 7);
+		glVertex3f(-1.1, 1.5, 7);
+		glEnd();
+
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed + 0.1, colorGreen + 0.1, colorBlue + 0.1);
+		glVertex3f(8, -2, 2.5);
+		glVertex3f(7.7, -1.5, 7);
+		glVertex3f(7.7, -1.4, 7);
+		glVertex3f(8, -1.7, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor3d(colorRed + 0.1, colorGreen + 0.1, colorBlue + 0.1);
+		glVertex3f(8, 1.7, 2.5);
+		glVertex3f(7.7, 1.4, 7);
+		glVertex3f(7.7, 1.5, 7);
+		glVertex3f(8, 2, 2.5);
+		glEnd();
+
 
 
 		//крыша
@@ -387,6 +472,66 @@ public:
 		drawWheel(3.3, -2.3, 0.5);
 		drawWheel(3.3, 2.3, 0.5);
 		drawVihlop(8, 1, 1);
+
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glBegin(GL_QUADS);
+		glColor4f(0.6, 0.6, 0.6, 0.3);
+		glVertex3f(-1.0, -1.5, 7.0);
+		glVertex3f(1.5, -1.5, 7.0);
+		glVertex3f(1.5, -2.0, 2.5);
+		glVertex3f(-2.7, -2.0, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor4f(0.6, 0.6, 0.6, 0.3);
+		glVertex3f(1.6, -1.5, 7.0);
+		glVertex3f(7.6, -1.5, 7.0);
+		glVertex3f(7.7, -2.0, 2.5);
+		glVertex3f(1.8, -2.0, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor4f(0.6, 0.6, 0.6, 0.3);
+		glVertex3f(-1.0, 1.5, 7.0);
+		glVertex3f(1.5, 1.5, 7.0);
+		glVertex3f(1.5, 2.0, 2.5);
+		glVertex3f(-2.7, 2.0, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor4f(0.6, 0.6, 0.6, 0.3);
+		glVertex3f(1.6, 1.5, 7.0);
+		glVertex3f(7.6, 1.5, 7.0);
+		glVertex3f(7.7, 2.0, 2.5);
+		glVertex3f(1.8, 2.0, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor4f(0.6, 0.6, 0.6, 0.3);
+		glVertex3f(-3.0, -1.7, 2.5);
+		glVertex3f(-3.0, 1.7, 2.5);
+		glVertex3f(-1.1, 1.4, 7.0);
+		glVertex3f(-1.1, -1.4, 7.0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor4f(0.6, 0.6, 0.6, 0.3);
+		glVertex3f(8.0, -1.7, 2.5);
+		glVertex3f(8.0, 1.7, 2.5);
+		glVertex3f(7.7, 1.4, 7.0);
+		glVertex3f(7.7, -1.4, 7.0);
+		glEnd();
+
+		glDisable(GL_BLEND);
+
+		drawLights(-8.01, -1.7, 1.5, -0.1, 1, 0.5, 0);
+		drawLights(-8.01, 0.7, 1.5, -0.1, 1, 0.5, 0);
+
+		drawLights(8.3, -1.7, 1.5, -0.1, 1, 0.5, 1);
+		drawLights(8.3, 0.7, 1.5, -0.1, 1, 0.5, 1);
 	}
 
 	void drawCarSedan() {
@@ -396,7 +541,8 @@ public:
 		drawWheel(3, 2.3, 0.5);
 
 		drawVihlop(5.5, 1, 1);
-
+		
+		
 		
 		
 
@@ -459,6 +605,7 @@ public:
 		glVertex3f(-5, 2, 2);
 		glVertex3f(-3, 2, 2.5);
 		glEnd();
+		
 
 		glBegin(GL_QUADS);
 		glColor3d(colorRed+0.1, colorGreen+0.1, colorBlue+0.1);
@@ -537,6 +684,8 @@ public:
 		glVertex3f(2.6, -1.5, 7);
 		glVertex3f(4, -2, 2.5);
 		glEnd();
+
+
 
 
 		glBegin(GL_QUADS);
@@ -645,6 +794,67 @@ public:
 		glVertex3f(2.6, -1.5, 6.9);
 		glVertex3f(-1.1, -1.5, 6.9);
 		glEnd();
+
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glBegin(GL_QUADS);
+		glColor4f(0.6, 0.6, 0.6, 0.3);
+		glVertex3f(-1.0, -1.5, 7.0);
+		glVertex3f(1.5, -1.5, 7.0);
+		glVertex3f(1.5, -2.0, 2.5);
+		glVertex3f(-2.7, -2.0, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor4f(0.6, 0.6, 0.6, 0.3); 
+		glVertex3f(1.6, -1.5, 7.0);
+		glVertex3f(2.5, -1.5, 7.0);
+		glVertex3f(3.7, -2.0, 2.5);
+		glVertex3f(1.8, -2.0, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor4f(0.6, 0.6, 0.6, 0.3);
+		glVertex3f(-1.0, 1.5, 7.0);
+		glVertex3f(1.5, 1.5, 7.0);
+		glVertex3f(1.5, 2.0, 2.5);
+		glVertex3f(-2.7, 2.0, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor4f(0.6, 0.6, 0.6, 0.3);
+		glVertex3f(1.6, 1.5, 7.0);
+		glVertex3f(2.5, 1.5, 7.0);
+		glVertex3f(3.7, 2.0, 2.5);
+		glVertex3f(1.8, 2.0, 2.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor4f(0.6, 0.6, 0.6, 0.3); 
+		glVertex3f(-3.0, -1.7, 2.5);
+		glVertex3f(-3.0, 1.7, 2.5);
+		glVertex3f(-1.1, 1.4, 7.0);
+		glVertex3f(-1.1, -1.4, 7.0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glColor4f(0.6, 0.6, 0.6, 0.3);
+		glVertex3f(4.0, -1.7, 2.5);
+		glVertex3f(4.0, 1.7, 2.5);
+		glVertex3f(2.6, 1.4, 7.0);
+		glVertex3f(2.6, -1.4, 7.0);
+		glEnd();
+
+
+		glDisable(GL_BLEND);
+
+		drawLights(-5.01, -1.7, 1.5, -0.1, 1, 0.5, 0);
+		drawLights(-5.01, 0.7, 1.5, -0.1, 1, 0.5, 0);
+
+		drawLights(5.3, -1.7, 1.5, -0.1, 1, 0.5, 1);
+		drawLights(5.3, 0.7, 1.5, -0.1, 1, 0.5, 1);
 	}
 };
 
