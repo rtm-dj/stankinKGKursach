@@ -864,14 +864,14 @@ public:
 std::vector<Car> cars;
 std::vector<Car> oncomingCars;
 bool trafficStopped = false;
-float savedSpeed = 20.0f;
+float savedSpeed = 20;
 
 void SetTrafficState() {
 	trafficStopped = !trafficStopped;
 }
 
 void UpdateCars(double delta_time) {
-	float spawnInterval = 2.0f;
+	float spawnInterval = 2;
 	const float leftBound = 40;
 	const float rightBound = -40;
 
@@ -893,7 +893,7 @@ void UpdateCars(double delta_time) {
 		nextOncomingCarTime = 0;
 	}
 
-	float currentSpeed = trafficStopped ? 0.0f : savedSpeed;
+	float currentSpeed = trafficStopped ? 0 : savedSpeed;
 
 	for (auto it = cars.begin(); it != cars.end(); ) {
 		it->positionX += currentSpeed * -delta_time;
@@ -919,14 +919,14 @@ void UpdateCars(double delta_time) {
 void DrawCars() {
 	for (auto& car : cars) {
 		glPushMatrix();
-		glTranslatef(car.positionX, 3, 0);
+		glTranslatef(car.positionX, 4, 0);
 		car.draw();
 		glPopMatrix();
 	}
 
 	for (auto& car : oncomingCars) {
 		glPushMatrix();
-		glTranslatef(car.positionX, -3, 0);
+		glTranslatef(car.positionX, -4, 0);
 		glScalef(-1, 1, 1);
 		car.draw();
 		glPopMatrix();
