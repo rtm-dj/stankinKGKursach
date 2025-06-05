@@ -45,54 +45,45 @@ public:
 	int type;
 	Texture signTex;
 	unsigned int textureId = 0;
-
+	double spawnTime = 0;
+	bool spawnFinished = false;
 
 	float x, y, z;
 	
 	roadSign(int _type, int _x, int _y, int _z) : type(_type), x(_x), y(_y), z(_z){}
 
 
-	void spawn() {
-		static double time = 0;
-		static bool finished = false;
 
-		double duration = 1;
-		double t = time / duration;
+	void spawn() {
+		double duration = 0.5;
+		double t = spawnTime / duration;
+
 		if (t >= 1) {
 			t = 1;
-			finished = true;
+			spawnFinished = true;
 		}
 
 		double offset = easeBounceOut(t);
-		double z = -10 + offset * 10;
+		double currentZ = -10 + offset * 10;
 
 		glPushMatrix();
-		glTranslated(0, 0, z);
+		glTranslated(0, 0, currentZ);
 		drawSign();
 		glPopMatrix();
 
-		if (!finished)
-			time += 0.016;
+		if (!spawnFinished)
+			spawnTime += 0.016;
+	}
+
+	void resetSpawnAnimation() {
+		spawnTime = 0;
+		spawnFinished = false;
 	}
 
 
 	void drawSign() {
 		glTranslated(x, y, z);
 
-		glEnable(GL_TEXTURE_2D);
-
-		switch (type)
-		{
-		case(0):
-			signTex.LoadTexture("textures/signArrow.jpg"); textureId = signTex.GetID(); break;
-		case(1):
-			signTex.LoadTexture("textures/signPedestrians.jpg"); textureId = signTex.GetID(); break;
-		case(2):
-			signTex.LoadTexture("textures/signSpeed.jpg"); textureId = signTex.GetID(); break;
-		}
-		glBindTexture(GL_TEXTURE_2D, textureId);
-
-		// Столб (серый прямоугольный параллелепипед)
 		glBegin(GL_QUADS);
 		glColor3d(0.5, 0.5, 0.5);
 		glVertex3f(-0.2, -0.2, 0);
@@ -116,6 +107,26 @@ public:
 		glVertex3f(0.2, 0.2, 5);
 		glVertex3f(0.2, -0.2, 5);
 		glEnd();
+
+		if (y < 0) {
+			glRotated(180, 0, 0, 1);
+		}
+
+		glEnable(GL_TEXTURE_2D);
+
+		switch (type)
+		{
+		case(0):
+			signTex.LoadTexture("textures/signArrow.jpg"); textureId = signTex.GetID(); break;
+		case(1):
+			signTex.LoadTexture("textures/signPedestrians.jpg"); textureId = signTex.GetID(); break;
+		case(2):
+			signTex.LoadTexture("textures/signSpeed.jpg"); textureId = signTex.GetID(); break;
+		}
+		glBindTexture(GL_TEXTURE_2D, textureId);
+
+		
+		
 
 
 		glPushMatrix();
@@ -1081,22 +1092,22 @@ void DrawCars() {
 }
 
 void createRandomSigns(int count) {
+	for (auto& sign : signs) {
+		sign.resetSpawnAnimation();
+	}
+
 	signs.clear();
 
 	srand(static_cast<unsigned int>(time(nullptr)));
 
 	for (int i = 0; i < count; ++i) {
 		int type = rand() % 3;
-
-		int x = -60 + rand() % 121;
-
+		int x = -60 + rand() % 120;
 		int y = (rand() % 2) ? 9.95 : -9.95;
-
 		int z = 0;
 
 		signs.emplace_back(type, x, y, z);
 	}
-
 }
 
 //-------------------------------------------------
@@ -1124,8 +1135,8 @@ void switchModes(OpenGL *sender, KeyEventArg arg)
 
 	switch (key)
 	{
-	case '1':
-		createRandomSigns(3);
+	case 'S':
+		createRandomSigns(4);
 		break;
 	case ' ':
 		SetTrafficState();
@@ -1290,14 +1301,6 @@ void Render(double delta_time)
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texId);
 
-	// Рисуем дорогу
-	/*glBegin(GL_QUADS);
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glTexCoord2f(0, 1); glVertex3f(40, 12, -0.5);
-	glTexCoord2f(1, 1); glVertex3f(40, -12, -0.5);
-	glTexCoord2f(1, 0); glVertex3f(-40, -12, -0.5);
-	glTexCoord2f(0, 0); glVertex3f(-40, 12, -0.5);
-	glEnd();*/
 
 	glBegin(GL_QUADS);
 	glColor3f(1.0f, 1.0f, 1.0f);
@@ -1347,6 +1350,7 @@ void Render(double delta_time)
 	std::wstringstream ss;
 	ss << std::fixed << std::setprecision(3);
 	ss << "Space - " << (simulation ? L"[вкл]выкл  " : L" вкл[выкл] ") << L"симуляции" << std::endl;
+	ss << "S - Spawn road signs" << std::endl;
 	ss << L"delta_time: " << std::setprecision(5)<< delta_time << std::endl;
 	ss << L"full_time: " << std::setprecision(2) << full_time << std::endl;
 
