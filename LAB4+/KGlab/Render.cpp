@@ -19,17 +19,163 @@
 #include "debout.h"
 
 //---------------------Models----------------------
-// Глобальная переменная для угла вращения
-float wheelRotationAngle = 0.0f;
+float wheelRotationAngle = 0;
+
+double easeBounceOut(double t) {
+	if (t < 1 / 2.75) {
+		return 7.5625 * t * t;
+	}
+	else if (t < 2 / 2.75) {
+		t -= 1.5 / 2.75;
+		return 7.5625 * t * t + 0.75;
+	}
+	else if (t < 2.5 / 2.75) {
+		t -= 2.25 / 2.75;
+		return 7.5625 * t * t + 0.9375;
+	}
+	else {
+		t -= 2.625 / 2.75;
+		return 7.5625 * t * t + 0.984375;
+	}
+}
+
+
+class roadSign {
+public:
+	int type;
+	Texture signTex;
+	unsigned int textureId = 0;
+
+
+	float x, y, z;
+	
+	roadSign(int _type, int _x, int _y, int _z) : type(_type), x(_x), y(_y), z(_z){}
+
+
+	void spawn() {
+		static double time = 0;
+		static bool finished = false;
+
+		double duration = 1;
+		double t = time / duration;
+		if (t >= 1) {
+			t = 1;
+			finished = true;
+		}
+
+		double offset = easeBounceOut(t);
+		double z = -10 + offset * 10;
+
+		glPushMatrix();
+		glTranslated(0, 0, z);
+		drawSign();
+		glPopMatrix();
+
+		if (!finished)
+			time += 0.016;
+	}
+
+
+	void drawSign() {
+		glTranslated(x, y, z);
+
+		glEnable(GL_TEXTURE_2D);
+
+		switch (type)
+		{
+		case(0):
+			signTex.LoadTexture("textures/signArrow.jpg"); textureId = signTex.GetID(); break;
+		case(1):
+			signTex.LoadTexture("textures/signPedestrians.jpg"); textureId = signTex.GetID(); break;
+		case(2):
+			signTex.LoadTexture("textures/signSpeed.jpg"); textureId = signTex.GetID(); break;
+		}
+		glBindTexture(GL_TEXTURE_2D, textureId);
+
+		// Столб (серый прямоугольный параллелепипед)
+		glBegin(GL_QUADS);
+		glColor3d(0.5, 0.5, 0.5);
+		glVertex3f(-0.2, -0.2, 0);
+		glVertex3f(0.2, -0.2, 0);
+		glVertex3f(0.2, -0.2, 5);
+		glVertex3f(-0.2, -0.2, 5);
+
+		glVertex3f(-0.2, 0.2, 0);
+		glVertex3f(0.2, 0.2, 0);
+		glVertex3f(0.2, 0.2, 5);
+		glVertex3f(-0.2, 0.2, 5);
+
+		glColor3d(0.4, 0.4, 0.4);
+		glVertex3f(-0.2, -0.2, 0);
+		glVertex3f(-0.2, 0.2, 0);
+		glVertex3f(-0.2, 0.2, 5);
+		glVertex3f(-0.2, -0.2, 5);
+
+		glVertex3f(0.2, -0.2, 0);
+		glVertex3f(0.2, 0.2, 0);
+		glVertex3f(0.2, 0.2, 5);
+		glVertex3f(0.2, -0.2, 5);
+		glEnd();
+
+
+		glPushMatrix();
+		glRotated(90, 0, 0, 1);
+
+		glBegin(GL_QUADS);
+		glColor3d(1, 1, 1);
+
+		
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.0, 0.0); glVertex3f(-1, -0.1, 5);
+		glTexCoord2f(1.0, 0.0); glVertex3f(1, -0.1, 5);
+		glTexCoord2f(1.0, 1.0); glVertex3f(1, -0.1, 7);
+		glTexCoord2f(0.0, 1.0); glVertex3f(-1, -0.1, 7);
+		glEnd();
+		glDisable(GL_TEXTURE_2D);
+
+		glBegin(GL_QUADS);
+		glColor3d(0.3, 0.3, 0.3);
+
+		glVertex3f(-1, 0.1, 5);
+		glVertex3f(1, 0.1, 5);
+		glVertex3f(1, 0.1, 7);
+		glVertex3f(-1, 0.1, 7);
+
+		glVertex3f(-1, -0.1, 5);
+		glVertex3f(-1, 0.1, 5);
+		glVertex3f(-1, 0.1, 7);
+		glVertex3f(-1, -0.1, 7);
+
+		glVertex3f(1, -0.1, 5);
+		glVertex3f(1, 0.1, 5);
+		glVertex3f(1, 0.1, 7);
+		glVertex3f(1, -0.1, 7);
+
+		glVertex3f(-1, -0.1, 7);
+		glVertex3f(1, -0.1, 7);
+		glVertex3f(1, 0.1, 7);
+		glVertex3f(-1, 0.1, 7);
+
+		glVertex3f(-1, -0.1, 5);
+		glVertex3f(1, -0.1, 5);
+		glVertex3f(1, 0.1, 5);
+		glVertex3f(-1, 0.1, 5);
+		glEnd();
+
+		glPopMatrix();
+	}
+};
+
+
+
 
 void drawWheel(float x, float y, float z, bool isRotating = true) {
-	const float wheelRadius = 0.7f;
-	const float wheelWidth = 0.4f;
+	const float wheelRadius = 0.7;
+	const float wheelWidth = 0.4;
 	const int segments = 10;
 
-	// Обновляем угол вращения (если колесо должно вращаться)
 	if (isRotating) {
-		wheelRotationAngle += 2.0f; // Скорость вращения
+		wheelRotationAngle += 2.0f;
 		if (wheelRotationAngle > 360.0f) {
 			wheelRotationAngle -= 360.0f;
 		}
@@ -860,9 +1006,10 @@ public:
 
 
 
-
+std::vector<roadSign> signs;
 std::vector<Car> cars;
 std::vector<Car> oncomingCars;
+
 bool trafficStopped = false;
 float savedSpeed = 20;
 
@@ -933,6 +1080,25 @@ void DrawCars() {
 	}
 }
 
+void createRandomSigns(int count) {
+	signs.clear();
+
+	srand(static_cast<unsigned int>(time(nullptr)));
+
+	for (int i = 0; i < count; ++i) {
+		int type = rand() % 3;
+
+		int x = -60 + rand() % 121;
+
+		int y = (rand() % 2) ? 9.95 : -9.95;
+
+		int z = 0;
+
+		signs.emplace_back(type, x, y, z);
+	}
+
+}
+
 //-------------------------------------------------
 
 
@@ -958,6 +1124,9 @@ void switchModes(OpenGL *sender, KeyEventArg arg)
 
 	switch (key)
 	{
+	case '1':
+		createRandomSigns(3);
+		break;
 	case ' ':
 		SetTrafficState();
 		simulation = !simulation;
@@ -1110,6 +1279,10 @@ void Render(double delta_time)
 	UpdateCars(delta_time);
 	DrawCars();
 
+	for (auto& sign : signs) {
+		sign.spawn();
+	}
+	
 
 	road_texture.LoadTexture("textures/road.jpg");
 	unsigned int texId = road_texture.GetID();
@@ -1133,10 +1306,13 @@ void Render(double delta_time)
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-60, -10, -0.2);
 	glTexCoord2f(0.0f, 1.0f); glVertex3f(-60, 10, -0.2);
 	glEnd();
-
-
 	glDisable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	
+	
+	
+
 	//сбрасываем все трансформации
 	glLoadIdentity();
 	camera.SetUpCamera();	
